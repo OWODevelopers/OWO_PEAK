@@ -1,10 +1,11 @@
-﻿using BepInEx;
-using BepInEx.Logging;
-using HarmonyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
+using BepInEx;
+using BepInEx.Logging;
+using HarmonyLib;
 
 namespace OWO_PEAK
 {
