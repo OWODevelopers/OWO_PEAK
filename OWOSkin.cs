@@ -91,7 +91,7 @@ namespace OWO_PEAK
             {
                 suitEnabled = true;
                 LOG("OWO suit connected.");
-                Feel("Heart Beat", 0);
+                Feel("Landing", 0);
             }
             if (!suitEnabled) LOG("OWO is not enabled?!?!");
         }

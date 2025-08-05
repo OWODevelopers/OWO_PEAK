@@ -17,7 +17,7 @@ namespace OWO_PEAK
 #pragma warning restore CS0109
 
         public static OWOSkin owoSkin;
-
+        private Harmony harmony;
 
         private void Awake()
         {
@@ -26,10 +26,14 @@ namespace OWO_PEAK
 
             owoSkin = new OWOSkin();
 
-            var harmony = new Harmony("owo.patch.peak");
+            harmony = new Harmony("owo.patch.peak");
             harmony.PatchAll();
         }
 
+        private void OnDestroy()
+        {
+            harmony.UnpatchAll();
+        }
 
 
         //[HarmonyPatch(typeof(Attack), nameof(Attack.OnAttackTrigger))]
