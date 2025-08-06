@@ -96,6 +96,23 @@ namespace OWO_PEAK
             }
         }
 
+        [HarmonyPatch(typeof(CharacterItems))]
+        internal static class CharacterItems_Patch
+        {
+            [HarmonyPatch(nameof(CharacterItems.OnPickupAccepted))]
+            [HarmonyPostfix]
+            private static void PickupItem(CharacterItems __instance)
+            {
+                Character character = Traverse.Create(__instance).Field("character").GetValue<Character>();
+
+                if (character.IsLocal)
+                {
+                    owoSkin.LOG("PICKUP ITEM!");
+                    owoSkin.Feel("Pickup Item", 2);
+                }
+            }
+        }
+
         //[HarmonyPatch(typeof(Attack), nameof(Attack.OnAttackTrigger))]
         //class OnWeaponAttack
         //{
