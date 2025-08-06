@@ -10,20 +10,14 @@ namespace OWO_PEAK
 {
     public class OWOSkin
     {
-
         private bool suitEnabled = false;
-        public bool playerEnabled = false;
         private string modPath = "BepInEx\\Plugins";
         private Dictionary<String, Sensation> sensationsMap = new Dictionary<String, Sensation>();
         private Dictionary<String, Muscle[]> muscleMap = new Dictionary<String, Muscle[]>();
 
-        public int stringBowIntensity = 40;
-        public bool isJumping = false;
-
         public bool heartBeatIsActive = false;
         public bool teleportIsActive = false;
         public bool rainingIsActive = false;
-        public bool stringBowIsActive = false;
 
         public Dictionary<string, Sensation> SensationsMap { get => sensationsMap; set => sensationsMap = value; }
 
@@ -199,7 +193,7 @@ namespace OWO_PEAK
 
         public bool CanFeel()
         {
-            return suitEnabled && playerEnabled;
+            return suitEnabled;
         }
 
         #region Loops
