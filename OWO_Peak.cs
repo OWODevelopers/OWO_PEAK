@@ -1,13 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using UnityEngine;
-
+using Photon.Pun;
 
 namespace OWO_PEAK
 {
@@ -42,7 +36,7 @@ namespace OWO_PEAK
         {
             [HarmonyPatch(typeof(Character), "OnLand", MethodType.Normal)]
             [HarmonyPostfix]
-            private static void RPC_Jump(Character __instance, float sinceGrounded)
+            private static void Land(Character __instance, float sinceGrounded)
             {
                 if (sinceGrounded <= 0.5)
                     return;
@@ -55,7 +49,7 @@ namespace OWO_PEAK
             }
         }
 
-            [HarmonyPatch(typeof(CharacterMovement))]
+        [HarmonyPatch(typeof(CharacterMovement))]
         internal static class CharacterMovement_Patch
         {
             [HarmonyPatch(nameof(CharacterMovement.JumpRpc))] //PUBLIC
@@ -77,14 +71,27 @@ namespace OWO_PEAK
         {
             [HarmonyPatch(typeof(CharacterClimbing), "Climbing", MethodType.Normal)]
             [HarmonyPostfix]
-            private static void Land(CharacterClimbing __instance)
+            private static void StartClimbing(CharacterClimbing __instance)
             {
                 Character character = Traverse.Create(__instance).Field("character").GetValue<Character>();
 
                 if (character.IsLocal && character.data.sinceGrounded <= 0.5)
                 {
-                    owoSkin.LOG("CLIMBING!");
-                    owoSkin.Feel("Climbing", 0);
+                    owoSkin.LOG("START CLIMBING!");
+                    owoSkin.StartClimbing();
+                }
+            }
+
+            [HarmonyPatch(nameof(CharacterClimbing.StopClimbingRpc))]
+            [HarmonyPostfix]
+            private static void RPC_StopClimbing(CharacterClimbing __instance, float setFall)
+            {
+                PhotonView view = Traverse.Create(__instance).Field("view").GetValue<PhotonView>();
+
+                if (view.IsMine)
+                {
+                    owoSkin.LOG("STOP CLIMBING!");
+                    owoSkin.StopClimbing();
                 }
             }
         }

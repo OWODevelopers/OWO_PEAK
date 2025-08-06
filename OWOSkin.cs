@@ -15,7 +15,7 @@ namespace OWO_PEAK
         private Dictionary<String, Sensation> sensationsMap = new Dictionary<String, Sensation>();
         private Dictionary<String, Muscle[]> muscleMap = new Dictionary<String, Muscle[]>();
 
-        public bool heartBeatIsActive = false;
+        public bool climbing = false;
         public bool teleportIsActive = false;
         public bool rainingIsActive = false;
 
@@ -185,7 +185,7 @@ namespace OWO_PEAK
 
         public void StopAllHapticFeedback()
         {
-            StopHeartBeat();
+            StopClimbing();           
             StopRaining();
             StopTeleporting();
             OWO.Stop();
@@ -198,26 +198,26 @@ namespace OWO_PEAK
 
         #region Loops
 
-        #region HeartBeat
+        #region Climbing
 
-        public void StartHeartBeat()
+        public void StartClimbing()
         {
-            if (heartBeatIsActive) return;
+            if (climbing) return;
 
-            heartBeatIsActive = true;
-            HeartBeatFuncAsync();
+            climbing = true;
+            ClimbingFuncAsync();
         }
 
-        public void StopHeartBeat()
+        public void StopClimbing()
         {
-            heartBeatIsActive = false;
+            climbing = false;
         }
 
-        public async Task HeartBeatFuncAsync()
+        public async Task ClimbingFuncAsync()
         {
-            while (heartBeatIsActive)
+            while (climbing)
             {
-                Feel("Heart Beat", 0);
+                Feel("Climbing", 0);
                 await Task.Delay(1000);
             }
         }
