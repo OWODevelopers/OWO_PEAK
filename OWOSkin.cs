@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace OWO_PEAK
 {
@@ -17,6 +18,9 @@ namespace OWO_PEAK
 
         public bool climbing = false;
         public bool climbingRope = false;
+        private bool slipping = false;
+        private bool heartBeatIsActive = false;
+
         public bool teleportIsActive = false;
         public bool rainingIsActive = false;
 
@@ -186,9 +190,12 @@ namespace OWO_PEAK
 
         public void StopAllHapticFeedback()
         {
-            StopClimbing();           
-            StopRaining();
+            StopClimbing();
+            StopClimbingRope();
+            StopSlipping();
+            StopHeartBeat();
             StopTeleporting();
+            StopRaining();
             OWO.Stop();
         }
 
@@ -251,6 +258,59 @@ namespace OWO_PEAK
 
         #endregion
 
+        #region Slipping
+        internal void StartSlipping()
+        {
+            if (slipping) return;
+            if (!climbing && !climbingRope) return;
+            slipping = true;
+            StopClimbing();
+            StopClimbingRope();
+            SlippingFuncAsync();
+        }
+
+        public void StopSlipping()
+        {
+            slipping = false;
+        }
+
+        public async Task SlippingFuncAsync()
+        {
+            while (slipping)
+            {
+                Feel("Slipping", 0);
+                await Task.Delay(1300);
+            }
+        }
+
+        #endregion
+
+        #region Heartbeat
+
+        public void StartHeartBeat()
+        {
+            if (heartBeatIsActive) return;
+
+            heartBeatIsActive = true;
+            HeartBeatFuncAsync();
+        }
+
+        public void StopHeartBeat()
+        {
+            heartBeatIsActive = false;
+        }
+
+        public async Task HeartBeatFuncAsync()
+        {
+            while (heartBeatIsActive)
+            {
+                Feel("Heart Beat", 0);
+                await Task.Delay(1000);
+            }
+        }
+
+        #endregion
+
         #region Teleporting
 
         public void StartTeleporting()
@@ -275,8 +335,8 @@ namespace OWO_PEAK
             }
         }
 
-        #endregion       
-        
+        #endregion
+
         #region Raining
 
         public void StartRaining()

@@ -45,15 +45,92 @@ namespace OWO_PEAK
                 if (__instance.IsLocal)
                 {
                     owoSkin.LOG("YOU HAVE LANDED!");
+                    owoSkin.StopClimbing();
+                    owoSkin.StopSlipping();
+
                     owoSkin.Feel("Landing", 2);
                 }
+            }
+
+            [HarmonyPatch(nameof(Character.RPCA_Fall))]
+            [HarmonyPostfix]
+            private static void Fall(Character __instance, float seconds)
+            {
+                if (!__instance.IsLocal)
+                    return;
+
+                owoSkin.LOG("YOU FELL");
+                owoSkin.Feel("Fall");
+            }
+
+            [HarmonyPatch(nameof(Character.RPCA_PassOut))]
+            [HarmonyPostfix]
+            private static void PassOut(Character __instance)
+            {
+                if (!__instance.IsLocal)
+                    return;
+
+                owoSkin.LOG("PASSED OUT");
+                owoSkin.StartHeartBeat();
+            }
+
+            [HarmonyPatch(nameof(Character.RPCA_Die))]
+            [HarmonyPostfix]
+            private static void Die(Character __instance, Vector3 itemSpawnPoint)
+            {
+                if (!__instance.IsLocal)
+                    return;
+
+                owoSkin.LOG("YOU ARE DEAD");
+                owoSkin.StopHeartBeat();
+                owoSkin.Feel("Death");
+            }
+            [HarmonyPatch(typeof(Character),"RPCA_Revive", MethodType.Normal)]
+            [HarmonyPostfix]
+            private static void Revive(Character __instance, bool applyStatus)
+            {
+                if (!__instance.IsLocal)
+                    return;
+
+                owoSkin.LOG("REVIVED!");
+                owoSkin.StopHeartBeat();
+                owoSkin.Feel("Revive");
+            }
+
+            [HarmonyPatch(typeof(Character), "UnPassOutDone", MethodType.Normal)]
+            [HarmonyPostfix]
+            private static void UnPassOut(Character __instance)
+            {
+                if (!__instance.IsLocal)
+                    return;
+
+                owoSkin.LOG("REVIVED!");
+                owoSkin.StopHeartBeat();
+                owoSkin.Feel("Revive");
+            }
+
+
+            [HarmonyPatch(typeof(Character), "OutOfStamina", MethodType.Normal)]
+            [HarmonyPrefix]
+            private static bool OutOfStamina(Character __instance)
+            {
+                if ((double)__instance.data.currentStamina < 0.004999999888241291 && (double)__instance.data.extraStamina < 1.0 / 1000.0)
+                {
+                    if (__instance.data.isClimbingAnything)
+                    {
+                        owoSkin.StartSlipping();
+                    }
+                    return true;
+                }
+
+                return false;
             }
         }
 
         [HarmonyPatch(typeof(CharacterMovement))]
         internal static class CharacterMovement_Patch
         {
-            [HarmonyPatch(nameof(CharacterMovement.JumpRpc))] //PUBLIC
+            [HarmonyPatch(nameof(CharacterMovement.JumpRpc))]
             [HarmonyPostfix]
             private static void RPC_Jump(CharacterMovement __instance, bool isPalJump)
             {
@@ -67,12 +144,35 @@ namespace OWO_PEAK
             }
         }
 
+        [HarmonyPatch(typeof(CharacterAfflictions))]
+        internal static class CharacterAfflictions_Patch
+        {
+            [HarmonyPatch(nameof(CharacterAfflictions.AddStatus))]
+            [HarmonyPostfix]
+            private static void AddStatus(CharacterAfflictions __instance, CharacterAfflictions.STATUSTYPE statusType, float amount, bool fromRPC = false)
+            {
+                bool inAirport = Traverse.Create(__instance).Field("m_inAirport").GetValue<bool>();
+
+                if (__instance.character.isBot || __instance.character.statusesLocked || (double)amount == 0.0 || inAirport)
+                    return;
+
+                if (!__instance.character.IsLocal && !fromRPC)
+                    return;
+
+                if (statusType == CharacterAfflictions.STATUSTYPE.Injury)
+                {
+                    owoSkin.LOG("OUCH, FALL DAMAGE!");
+                    owoSkin.Feel("Impact", 2);
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(CharacterClimbing))]
         internal static class CharacterClimbing_Patch
         {
-            [HarmonyPatch(typeof(CharacterClimbing), "Climbing", MethodType.Normal)]
+            [HarmonyPatch(typeof(CharacterClimbing), "StartClimbRpc", MethodType.Normal)]
             [HarmonyPostfix]
-            private static void StartClimbing(CharacterClimbing __instance)
+            private static void StartClimbing(CharacterClimbing __instance, Vector3 climbPos, Vector3 climbNormal)
             {
                 Character character = Traverse.Create(__instance).Field("character").GetValue<Character>();
 
@@ -93,6 +193,19 @@ namespace OWO_PEAK
                 {
                     owoSkin.LOG("STOP CLIMBING!");
                     owoSkin.StopClimbing();
+                }
+            }
+
+            [HarmonyPatch(nameof(CharacterClimbing.RPCA_ClimbJump))]
+            [HarmonyPostfix]
+            private static void RPC_ClimbJump(CharacterClimbing __instance)
+            {
+                PhotonView view = Traverse.Create(__instance).Field("view").GetValue<PhotonView>();
+
+                if (view.IsMine)
+                {
+                    owoSkin.LOG("CLIMB JUMP!!!");
+                    owoSkin.Feel("Climb Jump", 2);
                 }
             }
         }
