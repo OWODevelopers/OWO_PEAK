@@ -2,6 +2,7 @@
 using BepInEx.Logging;
 using HarmonyLib;
 using Photon.Pun;
+using UnityEngine;
 
 namespace OWO_PEAK
 {
@@ -111,8 +112,52 @@ namespace OWO_PEAK
                     owoSkin.Feel("Pickup Item", 2);
                 }
             }
+
+            [HarmonyPatch(nameof(CharacterItems.DropItemRpc))]
+            [HarmonyPostfix]
+            private static void DropItemRPC(CharacterItems __instance, float throwCharge, byte slotID, Vector3 spawnPos, Vector3 velocity, Quaternion rotation, ItemInstanceData itemInstanceData)
+            {
+                if (!__instance.photonView.IsMine)
+                    return;
+
+                owoSkin.LOG("DROP ITEM!");
+                owoSkin.Feel("Drop Item", 2);
+            }
         }
 
+        [HarmonyPatch(typeof(CharacterRopeHandling))]
+        internal static class CharacterClimbingRope_Patch
+        {
+            [HarmonyPatch(nameof(CharacterRopeHandling.GrabRopeRpc))]
+            [HarmonyPostfix]
+            private static void StartClimbingRope(CharacterRopeHandling __instance, PhotonView ropeView, int segmentIndex)
+            {
+                if (!ropeView.IsMine)
+                    return;
+
+                Rope componentInChildren = ropeView.GetComponentInChildren<Rope>();
+                if ((UnityEngine.Object)componentInChildren == (UnityEngine.Object)null)
+                    return;
+
+                owoSkin.LOG("START ROPE CLIMBING!");
+                owoSkin.StartClimbingRope();
+            }
+
+            [HarmonyPatch(typeof(CharacterRopeHandling), "StopRopeClimbingRpc", MethodType.Normal)]
+            [HarmonyPostfix]
+            private static void RPC_StopClimbingRope(CharacterRopeHandling __instance)
+            {
+                PhotonView view = Traverse.Create(__instance).Field("view").GetValue<PhotonView>();
+
+                if (!view.IsMine)
+                    return;
+
+                owoSkin.LOG("STOP ROPE CLIMBING!");
+                owoSkin.StopClimbingRope();
+            }
+        }
+
+        #region Legacy
         //[HarmonyPatch(typeof(Attack), nameof(Attack.OnAttackTrigger))]
         //class OnWeaponAttack
         //{
@@ -280,6 +325,7 @@ namespace OWO_PEAK
         //            owoSkin.Feel("Landing");
         //        }
         //    }
-        //}
+        //} 
+        #endregion
     }
 }

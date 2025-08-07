@@ -16,6 +16,7 @@ namespace OWO_PEAK
         private Dictionary<String, Muscle[]> muscleMap = new Dictionary<String, Muscle[]>();
 
         public bool climbing = false;
+        public bool climbingRope = false;
         public bool teleportIsActive = false;
         public bool rainingIsActive = false;
 
@@ -218,6 +219,32 @@ namespace OWO_PEAK
             while (climbing)
             {
                 Feel("Climbing", 0);
+                await Task.Delay(1000);
+            }
+        }
+
+        #endregion
+
+        #region Climbing Rope
+
+        public void StartClimbingRope()
+        {
+            if (climbingRope) return;
+
+            climbingRope = true;
+            ClimbingRopeFuncAsync();
+        }
+
+        public void StopClimbingRope()
+        {
+            climbingRope = false;
+        }
+
+        public async Task ClimbingRopeFuncAsync()
+        {
+            while (climbingRope)
+            {
+                Feel("Climbing Rope", 0);
                 await Task.Delay(1000);
             }
         }
