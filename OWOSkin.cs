@@ -20,6 +20,7 @@ namespace OWO_PEAK
         public bool climbingRope = false;
         private bool slipping = false;
         private bool heartBeatIsActive = false;
+        private bool interactIsActive = false;
 
         public bool teleportIsActive = false;
         public bool rainingIsActive = false;
@@ -362,7 +363,7 @@ namespace OWO_PEAK
         }
 
         #endregion
-
+       
         #endregion
     }
 }

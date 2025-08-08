@@ -85,7 +85,7 @@ namespace OWO_PEAK
                 owoSkin.StopHeartBeat();
                 owoSkin.Feel("Death");
             }
-            [HarmonyPatch(typeof(Character),"RPCA_Revive", MethodType.Normal)]
+            [HarmonyPatch(typeof(Character), "RPCA_Revive", MethodType.Normal)]
             [HarmonyPostfix]
             private static void Revive(Character __instance, bool applyStatus)
             {
@@ -270,6 +270,21 @@ namespace OWO_PEAK
             }
         }
 
+        [HarmonyPatch(typeof(Rope))]
+        internal static class Rope_Patch
+        {
+            [HarmonyPatch(nameof(Rope.AttachToSpool_Rpc))]
+            [HarmonyPostfix]
+            private static void AttachToRopeSpool(Rope __instance, PhotonView viewSpool)
+            {
+                if (!viewSpool.IsMine)
+                    return;
+
+                owoSkin.LOG("ANCHORED TO SPOOL!");
+                owoSkin.Feel("Rope Anchor",2);
+            }
+        }
+
         #region Legacy
         //[HarmonyPatch(typeof(Attack), nameof(Attack.OnAttackTrigger))]
         //class OnWeaponAttack
@@ -442,3 +457,4 @@ namespace OWO_PEAK
         #endregion
     }
 }
+
