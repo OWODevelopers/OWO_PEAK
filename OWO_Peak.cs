@@ -60,7 +60,7 @@ namespace OWO_PEAK
                     return;
 
                 owoSkin.LOG("YOU FELL");
-                owoSkin.Feel("Fall",3);
+                owoSkin.Feel("Fall", 3);
             }
 
             [HarmonyPatch(nameof(Character.RPCA_PassOut))]
@@ -83,7 +83,7 @@ namespace OWO_PEAK
 
                 owoSkin.LOG("YOU ARE DEAD");
                 owoSkin.StopHeartBeat();
-                owoSkin.Feel("Death",4);
+                owoSkin.Feel("Death", 4);
             }
             [HarmonyPatch(typeof(Character), "RPCA_Revive", MethodType.Normal)]
             [HarmonyPostfix]
@@ -94,7 +94,7 @@ namespace OWO_PEAK
 
                 owoSkin.LOG("REVIVED!");
                 owoSkin.StopHeartBeat();
-                owoSkin.Feel("Revive",3);
+                owoSkin.Feel("Revive", 3);
             }
 
             [HarmonyPatch(typeof(Character), "UnPassOutDone", MethodType.Normal)]
@@ -159,10 +159,28 @@ namespace OWO_PEAK
                 if (!__instance.character.IsLocal)
                     return;
 
-                if (statusType == CharacterAfflictions.STATUSTYPE.Injury)
+                switch (statusType)
                 {
-                    owoSkin.LOG("OUCH, FALL DAMAGE!");
-                    owoSkin.Feel("Impact", 2);
+                    case CharacterAfflictions.STATUSTYPE.Injury:
+                        owoSkin.LOG("OUCH, FALL DAMAGE!");
+                        owoSkin.Feel("Impact", 3);
+                        break;
+                    case CharacterAfflictions.STATUSTYPE.Hunger:
+                        owoSkin.LOG("YOU ARE HUNGRY");
+                        owoSkin.Feel("Hungry", 2);
+                        break;
+                    case CharacterAfflictions.STATUSTYPE.Cold:
+                    case CharacterAfflictions.STATUSTYPE.Hot:
+                    case CharacterAfflictions.STATUSTYPE.Curse:
+                    case CharacterAfflictions.STATUSTYPE.Crab:
+                        owoSkin.LOG($"ADDED: {statusType}");
+                        owoSkin.Feel("Debuff", 2);
+                        break;
+                    case CharacterAfflictions.STATUSTYPE.Drowsy:
+                    case CharacterAfflictions.STATUSTYPE.Poison:
+                        owoSkin.LOG($"ADDED: {statusType}");
+                        owoSkin.Feel("Poison", 2);
+                        break;
                 }
             }
         }
@@ -378,7 +396,7 @@ namespace OWO_PEAK
                     return;
 
                 owoSkin.LOG("ANCHORED TO SPOOL!");
-                owoSkin.Feel("Rope Anchor",2);
+                owoSkin.Feel("Rope Anchor", 2);
             }
         }
 
