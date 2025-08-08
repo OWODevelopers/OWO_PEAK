@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace OWO_PEAK
 {
@@ -16,11 +15,12 @@ namespace OWO_PEAK
         private Dictionary<String, Sensation> sensationsMap = new Dictionary<String, Sensation>();
         private Dictionary<String, Muscle[]> muscleMap = new Dictionary<String, Muscle[]>();
 
-        public bool climbing = false;
         public bool climbingRope = false;
         private bool slipping = false;
         private bool heartBeatIsActive = false;
-        private bool interactIsActive = false;
+        public bool carryingCharacter = false;
+        private bool grabbing = false;
+        private bool tootingIsActive = false;
 
         public bool teleportIsActive = false;
         public bool rainingIsActive = false;
@@ -204,6 +204,21 @@ namespace OWO_PEAK
         {
             return suitEnabled;
         }
+        public void GrabCharacter()
+        {
+            if (grabbing)
+                return;
+            grabbing = true;
+            LOG($"GRABBED CHARACTER!");
+            GrabbingFuncAsync();
+        }
+
+        public async Task GrabbingFuncAsync()
+        {
+            Feel("Grab Character", 2);
+            await Task.Delay(1500);
+            grabbing = false;
+        }
 
         #region Loops
 
@@ -211,20 +226,20 @@ namespace OWO_PEAK
 
         public void StartClimbing()
         {
-            if (climbing) return;
+            if (carryingCharacter) return;
 
-            climbing = true;
+            carryingCharacter = true;
             ClimbingFuncAsync();
         }
 
         public void StopClimbing()
         {
-            climbing = false;
+            carryingCharacter = false;
         }
 
         public async Task ClimbingFuncAsync()
         {
-            while (climbing)
+            while (carryingCharacter)
             {
                 Feel("Climbing", 0);
                 await Task.Delay(1000);
@@ -263,7 +278,7 @@ namespace OWO_PEAK
         internal void StartSlipping()
         {
             if (slipping) return;
-            if (!climbing && !climbingRope) return;
+            if (!carryingCharacter && !climbingRope) return;
             slipping = true;
             StopClimbing();
             StopClimbingRope();
@@ -310,6 +325,57 @@ namespace OWO_PEAK
             }
         }
 
+        #endregion
+
+        #region Carrying character
+
+        public void StartCarryingCharacter()
+        {
+            if (carryingCharacter) return;
+
+            carryingCharacter = true;
+            CarryingCharacterFuncAsync();
+        }
+
+        public void StopCarryingCharacter()
+        {
+            carryingCharacter = false;
+        }
+
+        public async Task CarryingCharacterFuncAsync()
+        {
+            while (carryingCharacter)
+            {
+                Feel("Carrying", 0);
+                await Task.Delay(1000);
+            }
+        }
+
+        #endregion
+
+        #region Tooting
+
+        internal void StartTooting()
+        {
+            if (tootingIsActive) return;
+
+            tootingIsActive = true;
+            TootingFuncAsync();
+        }
+
+        internal void StopTooting()
+        {
+            tootingIsActive = false;
+        }
+
+        public async Task TootingFuncAsync()
+        {
+            while (tootingIsActive)
+            {
+                Feel("Tooting", 0);
+                await Task.Delay(500);
+            }
+        } 
         #endregion
 
         #region Teleporting
@@ -363,7 +429,7 @@ namespace OWO_PEAK
         }
 
         #endregion
-       
+
         #endregion
     }
 }

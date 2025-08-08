@@ -156,7 +156,7 @@ namespace OWO_PEAK
                 if (__instance.character.isBot || __instance.character.statusesLocked || (double)amount == 0.0 || inAirport)
                     return;
 
-                if (!__instance.character.IsLocal && !fromRPC)
+                if (!__instance.character.IsLocal)
                     return;
 
                 if (statusType == CharacterAfflictions.STATUSTYPE.Injury)
@@ -245,7 +245,8 @@ namespace OWO_PEAK
             [HarmonyPostfix]
             private static void StartClimbingRope(CharacterRopeHandling __instance, PhotonView ropeView, int segmentIndex)
             {
-                if (!ropeView.IsMine)
+                Character character = Traverse.Create(__instance).Field("character").GetValue<Character>();
+                if (!character.IsLocal)
                     return;
 
                 Rope componentInChildren = ropeView.GetComponentInChildren<Rope>();
@@ -260,13 +261,77 @@ namespace OWO_PEAK
             [HarmonyPostfix]
             private static void RPC_StopClimbingRope(CharacterRopeHandling __instance)
             {
-                PhotonView view = Traverse.Create(__instance).Field("view").GetValue<PhotonView>();
-
-                if (!view.IsMine)
+                Character character = Traverse.Create(__instance).Field("character").GetValue<Character>();
+                if (!character.IsLocal)
                     return;
 
                 owoSkin.LOG("STOP ROPE CLIMBING!");
                 owoSkin.StopClimbingRope();
+            }
+        }
+
+        [HarmonyPatch(typeof(CharacterCarrying))]
+        internal static class CharacterCarrying_Patch
+        {
+            [HarmonyPatch(nameof(CharacterCarrying.RPCA_StartCarry))]
+            [HarmonyPostfix]
+            private static void StartCarryingCharacter(CharacterCarrying __instance, PhotonView targetView)
+            {
+                Character character = Traverse.Create(__instance).Field("character").GetValue<Character>();
+
+                if (!character.photonView.IsMine)
+                    return;
+
+                owoSkin.LOG($"START CARRYING CHARACTER!");
+                owoSkin.StartCarryingCharacter();
+            }
+
+            [HarmonyPatch(nameof(CharacterCarrying.RPCA_Drop))]
+            [HarmonyPostfix]
+            private static void DropCharacter(CharacterCarrying __instance, PhotonView targetView)
+            {
+                Character character = Traverse.Create(__instance).Field("character").GetValue<Character>();
+
+                if (!character.photonView.IsMine)
+                    return;
+
+                owoSkin.LOG("DROP CHARACTER!");
+                owoSkin.StopCarryingCharacter();
+            }
+        }
+
+
+        [HarmonyPatch(typeof(GUIManager))]
+        internal static class GUIManager_Patch
+        {
+            [HarmonyPatch(nameof(GUIManager.Grasp))]
+            [HarmonyPostfix]
+            private static void Grab_Character(GUIManager __instance)
+            {
+                Character character = Traverse.Create(__instance).Field("character").GetValue<Character>();
+
+                if (!character.photonView.IsMine)
+                    return;
+
+                owoSkin.GrabCharacter();
+
+            }
+        }
+
+        [HarmonyPatch(typeof(Item))]
+        internal static class Item_Patch
+        {
+            [HarmonyPatch(nameof(Item.Consume))]
+            [HarmonyPostfix]
+            private static void ConsumeItem(Item __instance, int consumerID)
+            {
+                PhotonView view = Traverse.Create(__instance).Field("view").GetValue<PhotonView>();
+
+                if (consumerID != -1 && __instance.holderCharacter.IsLocal)
+                {
+                    owoSkin.LOG($"CONSUMED ITEM!");
+                    owoSkin.Feel("Eating", 2);
+                }
             }
         }
 
@@ -282,6 +347,36 @@ namespace OWO_PEAK
 
                 owoSkin.LOG("ANCHORED TO SPOOL!");
                 owoSkin.Feel("Rope Anchor",2);
+            }
+        }
+
+        [HarmonyPatch(typeof(BugleSFX))]
+        internal static class Bugle_Patch
+        {
+            [HarmonyPatch(typeof(BugleSFX), "RPC_StartToot", MethodType.Normal)]
+            [HarmonyPostfix]
+            private static void StartToot(BugleSFX __instance, int clip)
+            {
+                PhotonView view = Traverse.Create(__instance).Field("photonView").GetValue<PhotonView>();
+
+                if (!view.IsMine)
+                    return;
+
+                owoSkin.LOG("START BOOOGLING!");
+                owoSkin.StartTooting();
+            }
+
+            [HarmonyPatch(typeof(BugleSFX), "RPC_EndToot", MethodType.Normal)]
+            [HarmonyPostfix]
+            private static void StopToot(BugleSFX __instance)
+            {
+                PhotonView view = Traverse.Create(__instance).Field("photonView").GetValue<PhotonView>();
+
+                if (!view.IsMine)
+                    return;
+
+                owoSkin.LOG("END BUGLE!");
+                owoSkin.StopTooting();
             }
         }
 
