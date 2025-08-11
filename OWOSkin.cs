@@ -195,8 +195,8 @@ namespace OWO_PEAK
             StopClimbingRope();
             StopSlipping();
             StopHeartBeat();
-            StopTeleporting();
-            StopRaining();
+            StopCarryingCharacter();
+            StopTooting();
             OWO.Stop();
         }
 
@@ -375,59 +375,7 @@ namespace OWO_PEAK
                 Feel("Tooting", 0);
                 await Task.Delay(500);
             }
-        } 
-        #endregion
-
-        #region Teleporting
-
-        public void StartTeleporting()
-        {
-            if (teleportIsActive) return;
-
-            teleportIsActive = true;
-            TeleportingFuncAsync();
         }
-
-        public void StopTeleporting()
-        {
-            teleportIsActive = false;
-        }
-
-        public async Task TeleportingFuncAsync()
-        {
-            while (teleportIsActive)
-            {
-                Feel("Teleporting", 2);
-                await Task.Delay(900);
-            }
-        }
-
-        #endregion
-
-        #region Raining
-
-        public void StartRaining()
-        {
-            if (rainingIsActive) return;
-
-            rainingIsActive = true;
-            RainingFuncAsync();
-        }
-
-        public void StopRaining()
-        {
-            rainingIsActive = false;
-        }
-
-        public async Task RainingFuncAsync()
-        {
-            while (rainingIsActive)
-            {
-                Feel("Raining", 0);
-                await Task.Delay(500);
-            }
-        }
-
         #endregion
 
         #endregion

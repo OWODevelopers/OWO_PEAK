@@ -4,20 +4,21 @@
 3~Death~40,11,80,0,900,0,Hit|0%100,1%100,3%100,2%100,7%100,9%100,8%100,6%100~health-3~Health#
 4~Fall~89,1,50,100,0,1,Landing|3%100,2%100,9%100,8%100~magic-2~Health#
 5~Slipping~30,5,80,100,0,0,UP|0%61,1%60,6%30,7%30,5%100,4%100&30,5,80,0,100,0,DOWN|0%60,5%100,1%61,4%100,6%30,7%30~environment-0~Health#
-6~Revive~55,3,70,300,0,0,Landing|3%100,2%100,9%100,8%100&55,4,70,0,400,0,Landing|0%100,7%100,6%100,1%100~magic-2~Environment#
-7~Grab Character~20,1,40,0,0,1,Pat|0%100,4%80&20,1,40,0,0,0,Pat|0%100,4%80~interaction-3~Interactable#
-8~Jump~60,1,60,0,100,0,Fall|9%100,8%100,3%100,2%100~environment-5~Interactable#
-9~Landing~34,2,70,0,100,0,Systole|2%100,3%100,8%100,9%100&19,1,43,0,100,0,Diastole|3%100,2%100,9%100,8%100~environment-5~Interactable#
-10~Rope Anchor~20,2,30,0,0,0,Drops|4%80,5%80~weapon-0~Interactable#
-11~Climbing~100,4,30,100,100,0,Hold|0%100,1%100,4%100,5%100,6%100,7%100~environment-3~Interactable#
-12~Climbing Rope~100,4,30,100,100,0,Hold|4%100,5%100~environment-3~Interactable#
-13~Pickup Item~11,1,40,0,0,0,Hit|5%100&45,1,40,0,100,1,Store|7%100,6%100,5%100~interaction-3~Interactable#
-14~Drop Item~81,3,32,0,200,0,|0%62,1%62,5%100,4%100~weapon-0~Interactable#
-15~Climb Jump~60,1,60,0,100,0,Fall|5%100,4%100,6%100,7%100~environment-5~Interactable#
-16~Earthquake~60,9,70,0,500,0,Numbness|0%60,3%100,2%100,8%100,9%100,7%60,6%60,1%60~weapon-0~Fight#
-17~Interact~16,2,40,100,0,0,Hit|1%100,0%100&13,3,40,0,0,0,Hit|3%100,2%100,0%100,1%100&14,2,40,0,200,0,Hit|5%100,4%100~environment-3~Interactable#
-18~Carrying~51,4,40,100,100,0,Hold|6%100,7%100,9%100,8%100~environment-3~Interactable#
-19~Tooting~60,2,50,100,0,0,Toot|0%100,5%80,1%100,4%80,3%70,2%70~impact-10~Interactable#
-20~Hungry~32,1,56,0,100,0,|3%100,2%100&48,1,36,0,100,0,|3%100,2%100~impact-4~Health#
-21~Debuff~85,1,70,0,100,0,|3%100,2%100&77,1,61,0,100,0,|3%100,2%100,5%100,1%100,0%100,4%100,7%100,6%100,9%100,8%100~impact-4~Health#
-22~Poison~35,4,66,0,200,0,|3%100,2%100~impact-4~Health
+6~Hungry~32,1,56,0,100,0,|3%100,2%100&48,1,36,0,100,0,|3%100,2%100~impact-4~Health#
+7~Debuff~85,1,70,0,100,0,|3%100,2%100&77,1,61,0,100,0,|3%100,2%100,5%100,1%100,0%100,4%100,7%100,6%100,9%100,8%100~impact-4~Health#
+8~Poison~35,4,66,0,200,0,|3%100,2%100~impact-4~Health#
+9~Grab Character~20,1,40,0,0,1,Pat|0%100,4%80&20,1,40,0,0,0,Pat|0%100,4%80~interaction-3~Interactable#
+10~Jump~60,1,60,0,100,0,Fall|9%100,8%100,3%100,2%100~environment-5~Interactable#
+11~Landing~34,2,70,0,100,0,Systole|2%100,3%100,8%100,9%100&19,1,43,0,100,0,Diastole|3%100,2%100,9%100,8%100~environment-5~Interactable#
+12~Rope Anchor~20,2,30,0,0,0,Drops|4%80,5%80~weapon-0~Interactable#
+13~Climbing~100,4,30,100,100,0,Hold|0%100,1%100,4%100,5%100,6%100,7%100~environment-3~Interactable#
+14~Climbing Rope~100,4,30,100,100,0,Hold|4%100,5%100~environment-3~Interactable#
+15~Pickup Item~11,1,40,0,0,0,Hit|5%100&45,1,40,0,100,1,Store|7%100,6%100,5%100~interaction-3~Interactable#
+16~Drop Item~81,3,32,0,200,0,|0%62,1%62,5%100,4%100~weapon-0~Interactable#
+17~Climb Jump~60,1,60,0,100,0,Fall|5%100,4%100,6%100,7%100~environment-5~Interactable#
+18~Interact~16,2,40,100,0,0,Hit|1%100,0%100&13,3,40,0,0,0,Hit|3%100,2%100,0%100,1%100&14,2,40,0,200,0,Hit|5%100,4%100~environment-3~Interactable#
+19~Carrying~51,4,40,100,100,0,Hold|6%100,7%100,9%100,8%100~environment-3~Interactable#
+20~Tooting~60,2,50,100,0,0,Toot|0%100,5%80,1%100,4%80,3%70,2%70~impact-10~Interactable#
+21~Crouch~35,2,30,0,100,1,Crouch|3%100,2%100,7%100,9%100,6%100,8%100~interaction-3~Interactable#
+22~Revive~55,3,70,300,0,0,Landing|3%100,2%100,9%100,8%100&55,4,70,0,400,0,Landing|0%100,7%100,6%100,1%100~magic-2~Health#
+23~End Game~21,1,41,100,0,0,|3%30,2%30,9%46,8%52,7%79,6%80,5%70,1%80,0%81,4%70&33,2,43,0,100,0,|0%79,7%80,6%80,1%80,5%70,4%69,8%49,9%51,3%31,2%30~magic-2~

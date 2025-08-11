@@ -82,7 +82,7 @@ namespace OWO_PEAK
                     return;
 
                 owoSkin.LOG("YOU ARE DEAD");
-                owoSkin.StopHeartBeat();
+                owoSkin.StopAllHapticFeedback();
                 owoSkin.Feel("Death", 4);
             }
             [HarmonyPatch(typeof(Character), "RPCA_Revive", MethodType.Normal)]
@@ -125,6 +125,18 @@ namespace OWO_PEAK
 
                 return false;
             }
+
+            [HarmonyPatch(typeof(Character), "RPCEndGame", MethodType.Normal)]
+            [HarmonyPostfix]
+            private static void EndGame(Character __instance)
+            {
+                if (!__instance.IsLocal)
+                    return;
+
+                owoSkin.LOG("GAME ENDED!");
+                owoSkin.StopAllHapticFeedback();
+                owoSkin.Feel("End Game");
+            }
         }
 
         [HarmonyPatch(typeof(CharacterMovement))]
@@ -140,6 +152,19 @@ namespace OWO_PEAK
                 {
                     owoSkin.LOG("YOU HAVE JUMPED!");
                     owoSkin.Feel("Jump", 2);
+                }
+            }
+
+            [HarmonyPatch(nameof(CharacterMovement.RPCA_SetCrouch))]
+            [HarmonyPostfix]
+            private static void RPC_Crouch(CharacterMovement __instance, bool setCrouch)
+            {
+                Character character = Traverse.Create(__instance).Field("character").GetValue<Character>();
+
+                if (character != null && character.IsLocal && setCrouch)
+                {
+                    owoSkin.LOG("YOU HAVE CROUCHED!");
+                    owoSkin.Feel("Crouch", 2);
                 }
             }
         }
@@ -159,15 +184,14 @@ namespace OWO_PEAK
                 if (!__instance.character.IsLocal)
                     return;
 
+                if (amount <= 0)
+                    return;
+
                 switch (statusType)
                 {
                     case CharacterAfflictions.STATUSTYPE.Injury:
                         owoSkin.LOG("OUCH, FALL DAMAGE!");
                         owoSkin.Feel("Impact", 3);
-                        break;
-                    case CharacterAfflictions.STATUSTYPE.Hunger:
-                        owoSkin.LOG("YOU ARE HUNGRY");
-                        owoSkin.Feel("Hungry", 2);
                         break;
                     case CharacterAfflictions.STATUSTYPE.Cold:
                     case CharacterAfflictions.STATUSTYPE.Hot:
@@ -181,6 +205,17 @@ namespace OWO_PEAK
                         owoSkin.LOG($"ADDED: {statusType}");
                         owoSkin.Feel("Poison", 2);
                         break;
+                }
+            }
+
+            [HarmonyPatch(typeof(CharacterAfflictions), "StatusSFX", MethodType.Normal)]
+            [HarmonyPostfix]
+            private static void StatusSFX(CharacterAfflictions __instance, CharacterAfflictions.STATUSTYPE sT, float ammount)
+            {
+                if(sT == CharacterAfflictions.STATUSTYPE.Hunger)
+                {
+                    owoSkin.LOG($"YOU ARE HUNGRY: {ammount}");
+                    owoSkin.Feel("Hungry", 2);
                 }
             }
         }
