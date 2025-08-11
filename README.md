@@ -12,6 +12,7 @@ Want to get an OWO Suit? [Look here](https://owogame.com/shop/).
 - Extract the BepinEx zip data on the same folder of the game and run the game once.
 - Download the [lastest release of this mod](https://github.com/OWODevelopers/OWO_PEAK/releases/latest)
 - Extract the mod zip and place all files and the owo folder into the BepInEx\Plugins directory of your game installation.
+- Run Peak.exe with DX12, Vulkan is not supported.
 - Enjoy your inmersive experience! 😊
 
 # Featured effects
