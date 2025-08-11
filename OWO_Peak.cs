@@ -229,9 +229,9 @@ namespace OWO_PEAK
             [HarmonyPostfix]
             private static void RPC_StopClimbing(CharacterClimbing __instance, float setFall)
             {
-                PhotonView view = Traverse.Create(__instance).Field("view").GetValue<PhotonView>();
+                Character character = Traverse.Create(__instance).Field("character").GetValue<Character>();
 
-                if (view.IsMine)
+                if (character.IsLocal)
                 {
                     owoSkin.StopClimbing();
                 }
@@ -272,7 +272,7 @@ namespace OWO_PEAK
                 if (!__instance.photonView.IsMine)
                     return;
 
-                int throwValue = (int)Mathf.Clamp(throwCharge * 100, 20, 100);
+                int throwValue = (int)Mathf.Clamp(throwCharge * 100, 40, 100);
                 owoSkin.Feel("Drop Item", 2, throwValue);
             }
         }

@@ -4,7 +4,7 @@
 3~Eating~30,2,40,200,0,0,Hit|1%100,0%100&30,1,40,0,0,0,Hit|3%100,2%100,0%100,1%100&30,2,40,0,200,0,Hit|3%100,2%100~environment-3~Health#
 4~Death~40,11,80,0,900,0,Hit|0%100,1%100,3%100,2%100,7%100,9%100,8%100,6%100~health-3~Health#
 5~Fall~89,1,60,100,0,1,Landing|9%100,8%100~magic-2~Health#
-6~Slipping~30,5,80,0,0,0,Slip|0%61,1%60,6%30,7%30,5%100,4%100&30,5,80,0,0,0,DOWN|0%60,5%100,1%61,4%100,6%30,7%30~environment-0~Health#
+6~Slipping~30,5,80,0,0,0,Slip|0%61,1%60,6%30,7%30,5%100,4%100~environment-0~Health#
 7~Hungry~32,1,56,0,100,0,|3%100,2%100&48,1,36,0,100,0,|3%100,2%100~impact-4~Health#
 8~Debuff~85,1,70,0,100,0,|3%100,2%100,1%100,5%100,0%100,4%100,7%100,6%100,9%100,8%100&77,1,61,0,100,0,|3%100,2%100,5%100,1%100,0%100,4%100,7%100,6%100,9%100,8%100~impact-4~Health#
 9~Poison~35,4,66,0,200,0,|3%100,2%100,1%100,0%100,5%100,4%100,6%100,7%100,9%100,8%100~impact-4~Health#
@@ -13,8 +13,8 @@
 12~Jump~60,1,60,0,100,0,Fall|9%100,8%100,3%100,2%100~environment-5~Interactable#
 13~Landing~34,2,50,0,100,0,Systole|2%100,3%100,8%100,9%100&19,1,43,0,100,0,Diastole|3%100,2%100,9%100,8%100~environment-5~Interactable#
 14~Rope Anchor~20,2,30,0,0,0,Drops|4%80,5%80~weapon-0~Interactable#
-15~Climbing~79,4,30,0,0,0,Hold|0%100,1%100,4%100,5%100,6%100,7%100~environment-3~Interactable#
-16~Climbing Rope~60,4,30,0,0,0,Hold|4%100,5%100~environment-3~Interactable#
+15~Climbing~79,4,25,200,0,0,Hold|0%100,1%100,4%100,5%100,6%100,7%100~environment-3~Interactable#
+16~Climbing Rope~60,4,30,0,0,0,Hold|4%100,5%100,1%61,0%68~environment-3~Interactable#
 17~Pickup Item~11,1,40,0,0,0,Hit|5%100&45,1,40,0,100,1,Store|7%100,6%100,5%100,4%100~interaction-3~Interactable#
 18~Drop Item~40,3,73,0,200,0,|0%62,1%62,5%100,4%100~weapon-0~Interactable#
 19~Climb Jump~60,1,60,0,100,0,Fall|5%100,4%100,6%100,7%100~environment-5~Interactable#
