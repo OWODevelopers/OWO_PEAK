@@ -238,7 +238,7 @@ namespace OWO_PEAK
             while (carryingCharacter)
             {
                 Feel("Climbing", 0);
-                await Task.Delay(500);
+                await Task.Delay(200);
             }
         }
 
@@ -291,7 +291,7 @@ namespace OWO_PEAK
             while (slipping)
             {
                 Feel("Slipping", 0);
-                await Task.Delay(1300);
+                await Task.Delay(250);
             }
         }
 

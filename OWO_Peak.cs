@@ -272,7 +272,8 @@ namespace OWO_PEAK
                 if (!__instance.photonView.IsMine)
                     return;
 
-                owoSkin.Feel("Drop Item", 2, (int)Mathf.Clamp(throwCharge, 0, 100));
+                int throwValue = (int)Mathf.Clamp(throwCharge * 100, 20, 100);
+                owoSkin.Feel("Drop Item", 2, throwValue);
             }
         }
 
