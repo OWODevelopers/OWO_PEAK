@@ -110,7 +110,7 @@ namespace OWO_PEAK
             {
                 if ((double)__instance.data.currentStamina < 0.004999999888241291 && (double)__instance.data.extraStamina < 1.0 / 1000.0)
                 {
-                    if (__instance.data.isClimbingAnything)
+                    if (__instance.IsLocal && __instance.data.isClimbingAnything)
                     {
                         owoSkin.StartSlipping();
                     }
@@ -200,7 +200,10 @@ namespace OWO_PEAK
             [HarmonyPostfix]
             private static void StatusSFX(CharacterAfflictions __instance, CharacterAfflictions.STATUSTYPE sT, float ammount)
             {
-                if(sT == CharacterAfflictions.STATUSTYPE.Hunger)
+                if (!__instance.character.IsLocal)
+                    return;
+
+                if (sT == CharacterAfflictions.STATUSTYPE.Hunger)
                 {
                     owoSkin.Feel("Hungry", 2);
                 }
@@ -269,7 +272,7 @@ namespace OWO_PEAK
                 if (!__instance.photonView.IsMine)
                     return;
 
-                owoSkin.Feel("Drop Item", 2);
+                owoSkin.Feel("Drop Item", 2, (int)Mathf.Clamp(throwCharge, 0, 100));
             }
         }
 
