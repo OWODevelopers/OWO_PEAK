@@ -1,10 +1,10 @@
-﻿using OWOGame;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using OWOGame;
 
 namespace OWO_PEAK
 {
@@ -21,9 +21,6 @@ namespace OWO_PEAK
         public bool carryingCharacter = false;
         private bool grabbing = false;
         private bool tootingIsActive = false;
-
-        public bool teleportIsActive = false;
-        public bool rainingIsActive = false;
 
         public Dictionary<string, Sensation> SensationsMap { get => sensationsMap; set => sensationsMap = value; }
 
@@ -209,7 +206,6 @@ namespace OWO_PEAK
             if (grabbing)
                 return;
             grabbing = true;
-            LOG($"GRABBED CHARACTER!");
             GrabbingFuncAsync();
         }
 

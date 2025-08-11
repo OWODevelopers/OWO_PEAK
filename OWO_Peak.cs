@@ -44,7 +44,6 @@ namespace OWO_PEAK
 
                 if (__instance.IsLocal)
                 {
-                    owoSkin.LOG("YOU HAVE LANDED!");
                     owoSkin.StopClimbing();
                     owoSkin.StopSlipping();
 
@@ -59,7 +58,6 @@ namespace OWO_PEAK
                 if (!__instance.IsLocal)
                     return;
 
-                owoSkin.LOG("YOU FELL");
                 owoSkin.Feel("Fall", 3);
             }
 
@@ -70,7 +68,6 @@ namespace OWO_PEAK
                 if (!__instance.IsLocal)
                     return;
 
-                owoSkin.LOG("PASSED OUT");
                 owoSkin.StartHeartBeat();
             }
 
@@ -81,7 +78,6 @@ namespace OWO_PEAK
                 if (!__instance.IsLocal)
                     return;
 
-                owoSkin.LOG("YOU ARE DEAD");
                 owoSkin.StopAllHapticFeedback();
                 owoSkin.Feel("Death", 4);
             }
@@ -92,7 +88,6 @@ namespace OWO_PEAK
                 if (!__instance.IsLocal)
                     return;
 
-                owoSkin.LOG("REVIVED!");
                 owoSkin.StopHeartBeat();
                 owoSkin.Feel("Revive", 3);
             }
@@ -104,7 +99,6 @@ namespace OWO_PEAK
                 if (!__instance.IsLocal)
                     return;
 
-                owoSkin.LOG("REVIVED!");
                 owoSkin.StopHeartBeat();
                 owoSkin.Feel("Revive");
             }
@@ -133,7 +127,6 @@ namespace OWO_PEAK
                 if (!__instance.IsLocal)
                     return;
 
-                owoSkin.LOG("GAME ENDED!");
                 owoSkin.StopAllHapticFeedback();
                 owoSkin.Feel("End Game");
             }
@@ -150,7 +143,6 @@ namespace OWO_PEAK
 
                 if (character != null && character.IsLocal)
                 {
-                    owoSkin.LOG("YOU HAVE JUMPED!");
                     owoSkin.Feel("Jump", 2);
                 }
             }
@@ -163,7 +155,6 @@ namespace OWO_PEAK
 
                 if (character != null && character.IsLocal && setCrouch)
                 {
-                    owoSkin.LOG("YOU HAVE CROUCHED!");
                     owoSkin.Feel("Crouch", 2);
                 }
             }
@@ -190,19 +181,16 @@ namespace OWO_PEAK
                 switch (statusType)
                 {
                     case CharacterAfflictions.STATUSTYPE.Injury:
-                        owoSkin.LOG("OUCH, FALL DAMAGE!");
                         owoSkin.Feel("Impact", 3);
                         break;
                     case CharacterAfflictions.STATUSTYPE.Cold:
                     case CharacterAfflictions.STATUSTYPE.Hot:
                     case CharacterAfflictions.STATUSTYPE.Curse:
                     case CharacterAfflictions.STATUSTYPE.Crab:
-                        owoSkin.LOG($"ADDED: {statusType}");
                         owoSkin.Feel("Debuff", 2);
                         break;
                     case CharacterAfflictions.STATUSTYPE.Drowsy:
                     case CharacterAfflictions.STATUSTYPE.Poison:
-                        owoSkin.LOG($"ADDED: {statusType}");
                         owoSkin.Feel("Poison", 2);
                         break;
                 }
@@ -214,7 +202,6 @@ namespace OWO_PEAK
             {
                 if(sT == CharacterAfflictions.STATUSTYPE.Hunger)
                 {
-                    owoSkin.LOG($"YOU ARE HUNGRY: {ammount}");
                     owoSkin.Feel("Hungry", 2);
                 }
             }
@@ -231,7 +218,6 @@ namespace OWO_PEAK
 
                 if (character.IsLocal && character.data.sinceGrounded <= 0.5)
                 {
-                    owoSkin.LOG("START CLIMBING!");
                     owoSkin.StartClimbing();
                 }
             }
@@ -244,7 +230,6 @@ namespace OWO_PEAK
 
                 if (view.IsMine)
                 {
-                    owoSkin.LOG("STOP CLIMBING!");
                     owoSkin.StopClimbing();
                 }
             }
@@ -257,7 +242,6 @@ namespace OWO_PEAK
 
                 if (view.IsMine)
                 {
-                    owoSkin.LOG("CLIMB JUMP!!!");
                     owoSkin.Feel("Climb Jump", 2);
                 }
             }
@@ -274,7 +258,6 @@ namespace OWO_PEAK
 
                 if (character.IsLocal)
                 {
-                    owoSkin.LOG("PICKUP ITEM!");
                     owoSkin.Feel("Pickup Item", 2);
                 }
             }
@@ -286,7 +269,6 @@ namespace OWO_PEAK
                 if (!__instance.photonView.IsMine)
                     return;
 
-                owoSkin.LOG("DROP ITEM!");
                 owoSkin.Feel("Drop Item", 2);
             }
         }
@@ -306,7 +288,6 @@ namespace OWO_PEAK
                 if ((UnityEngine.Object)componentInChildren == (UnityEngine.Object)null)
                     return;
 
-                owoSkin.LOG("START ROPE CLIMBING!");
                 owoSkin.StartClimbingRope();
             }
 
@@ -318,7 +299,6 @@ namespace OWO_PEAK
                 if (!character.IsLocal)
                     return;
 
-                owoSkin.LOG("STOP ROPE CLIMBING!");
                 owoSkin.StopClimbingRope();
             }
         }
@@ -338,7 +318,6 @@ namespace OWO_PEAK
                 if ((UnityEngine.Object)component == (UnityEngine.Object)null)
                     return;
 
-                owoSkin.LOG("START VINE CLIMBING!");
                 owoSkin.StartClimbingRope();
             }
 
@@ -350,7 +329,6 @@ namespace OWO_PEAK
                 if (!character.IsLocal)
                     return;
 
-                owoSkin.LOG("STOP VINE CLIMBING!");
                 owoSkin.StopClimbingRope();
             }
         }
@@ -367,7 +345,6 @@ namespace OWO_PEAK
                 if (!character.photonView.IsMine)
                     return;
 
-                owoSkin.LOG($"START CARRYING CHARACTER!");
                 owoSkin.StartCarryingCharacter();
             }
 
@@ -380,7 +357,6 @@ namespace OWO_PEAK
                 if (!character.photonView.IsMine)
                     return;
 
-                owoSkin.LOG("DROP CHARACTER!");
                 owoSkin.StopCarryingCharacter();
             }
         }
@@ -414,7 +390,6 @@ namespace OWO_PEAK
 
                 if (consumerID != -1 && __instance.holderCharacter.IsLocal)
                 {
-                    owoSkin.LOG($"CONSUMED ITEM!");
                     owoSkin.Feel("Eating", 2);
                 }
             }
@@ -430,7 +405,6 @@ namespace OWO_PEAK
                 if (!viewSpool.IsMine)
                     return;
 
-                owoSkin.LOG("ANCHORED TO SPOOL!");
                 owoSkin.Feel("Rope Anchor", 2);
             }
         }
@@ -447,7 +421,6 @@ namespace OWO_PEAK
                 if (!view.IsMine)
                     return;
 
-                owoSkin.LOG("START BOOOGLING!");
                 owoSkin.StartTooting();
             }
 
@@ -460,7 +433,6 @@ namespace OWO_PEAK
                 if (!view.IsMine)
                     return;
 
-                owoSkin.LOG("END BUGLE!");
                 owoSkin.StopTooting();
             }
         }
