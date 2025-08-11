@@ -14,9 +14,28 @@ Want to get an OWO Suit? [Look here](https://owogame.com/shop/).
 - Extract the mod zip and place all files and the owo folder into the BepInEx\Plugins directory of your game installation.
 - Enjoy your inmersive experience! 😊
 
-# Featured effect ???????????? WIP
+# Featured effects
+- Jump
 - Fall
-
+- Climbing
+- Slipping
+- Hungry
+- Poison
+- Heart Beat
+- Impact
+- Eating
+- Death
+- Revive
+- End Game
+- Grab Character
+- Landing
+- Climb Jump
+- Climbing rope
+- Rope Anchor
+- Interact
+- Carrying
+- Tooting
+- Crouch
   
 # Manual Connection
 If you are having trouble with the automatic connection, create a .txt file called OWO_Manual_IP.txt  
