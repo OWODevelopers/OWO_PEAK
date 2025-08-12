@@ -219,7 +219,7 @@ namespace OWO_PEAK
             {
                 Character character = Traverse.Create(__instance).Field("character").GetValue<Character>();
 
-                if (character.IsLocal && character.data.sinceGrounded <= 0.5)
+                if (character.IsLocal)
                 {
                     owoSkin.StartClimbing();
                 }
